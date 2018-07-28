@@ -1,10 +1,10 @@
 // Enemies our player must avoid
 class Enemy {
-  constructor(img) {
+  constructor(img, x, y, speedX) {
     this.sprite = img; //'images/enemy-bug.png';
-    this.x = 0;
-    this.y = 50;
-    this.speedX = 0;
+    this.x = x;
+    this.y = y;
+    this.speedX = speedX;
   //  this.speed =
   }
   update(dt) {
@@ -12,14 +12,19 @@ class Enemy {
       // which will ensure the game runs at the same speed for
       // all computers.
       // is this the window object?
-        this.x +=  this.speedX * dt;
+
+
+          this.x +=  this.speedX * dt;
+          if (this.x > 600){
+            this.x =-100;
+          }
 
   }
   render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
-const enemy1 = new Enemy('images/enemy-bug.png');
+const enemy1 = new Enemy('images/enemy-bug.png', 0, 50, 60);
 var allEnemies = [enemy1];
 // class Player extends Enemy {
 //   constructor(img) {
