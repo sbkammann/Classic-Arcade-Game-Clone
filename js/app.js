@@ -46,16 +46,16 @@ class Player extends Enemy {
     super.render();
   }
   handleInput(e) {
-    if (e === 'left'){
+    if (e === 'left' && this.x !== 0){
       this.x -= this.speedX;
     }
-    if (e === 'right'){
+    if (e === 'right' && this.x !== 400){
       this.x += this.speedX;
     }
-    if (e === 'up'){
+    if (e === 'up' && this.y !== -25){
       this.y -= this.speedY;
     }
-    if (e === 'down'){
+    if (e === 'down' && this.y !== 400){
       this.y += this.speedY;
     }
   }
