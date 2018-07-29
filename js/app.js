@@ -31,12 +31,13 @@ const enemy3 = new Enemy('images/enemy-bug.png', 100, 230, 80);
 var allEnemies = [enemy1, enemy2, enemy3];
 
 class Player extends Enemy {
-  constructor(img, x, y, speedX) {
+  constructor(img, x, y, speedX, speedY) {
     super(img, x, y, speedX);
     this.sprite = img;
     this.x = x;
     this.y = y;
     this.speedX = speedX;
+    this.speedY = speedY;
   }
   update(dt) {
 
@@ -52,15 +53,15 @@ class Player extends Enemy {
       this.x += this.speedX;
     }
     if (e === 'up'){
-      this.y -= this.speedX;
+      this.y -= this.speedY;
     }
     if (e === 'down'){
-      this.y += this.speedX;
+      this.y += this.speedY;
     }
   }
 }
 
-const player = new Player('images/char-boy.png', 200, 400, 81);
+const player = new Player('images/char-boy.png', 200, 400, 100, 85);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
