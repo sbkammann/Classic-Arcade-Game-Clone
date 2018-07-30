@@ -5,8 +5,8 @@ class Enemy {
     this.x = x;
     this.y = y;
     this.speedX = speedX;
-    this.width = 100;
-    this.height = 75;
+    this.width = 50;
+    this.height = 40;
 
   }
   update(dt) {
@@ -38,8 +38,8 @@ class Player extends Enemy {
     this.y = y;
     this.speedX = speedX;
     this.speedY = speedY;
-    this.width = 70; //70
-    this.height = 80; //80
+    this.width = 7; 
+    this.height = 8;
 
   }
   update(dt) {
