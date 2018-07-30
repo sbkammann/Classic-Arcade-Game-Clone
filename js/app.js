@@ -5,15 +5,15 @@ class Enemy {
     this.x = x;
     this.y = y;
     this.speedX = speedX;
-  //  this.speed =
+    this.width = 100;
+    this.height = 75;
+
   }
   update(dt) {
       // You should multiply any movement by the dt parameter
       // which will ensure the game runs at the same speed for
       // all computers.
       // is this the window object?
-
-
           this.x +=  this.speedX * dt;
           if (this.x > 600){
             this.x =-100;
@@ -38,9 +38,23 @@ class Player extends Enemy {
     this.y = y;
     this.speedX = speedX;
     this.speedY = speedY;
+    this.width = 70; //70
+    this.height = 80; //80
+
   }
   update(dt) {
-
+    (function collision() {
+    allEnemies.forEach(function(enemy) {
+      if (enemy.x < player.x + player.width &&
+          enemy.x + enemy.width > player.x &&
+          enemy.y < player.y + player.height &&
+          enemy.y + enemy.height > player.y){
+        player.x = 200;
+        player.y = 400;
+        console.log('collision');
+        }
+      });
+    })();
   }
   render() {
     super.render();
