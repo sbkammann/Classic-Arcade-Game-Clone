@@ -38,7 +38,7 @@ class Player extends Enemy {
     this.y = y;
     this.speedX = speedX;
     this.speedY = speedY;
-    this.width = 7; 
+    this.width = 7;
     this.height = 8;
 
   }
@@ -73,14 +73,32 @@ class Player extends Enemy {
       this.y += this.speedY;
     }
   }
-}
+};
 
-const player = new Player('images/char-boy.png', 200, 400, 100, 85);
+const player = new Player('images/char-boy.png' , 200, 400, 100, 85); //
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
-
+class Gem {
+  constructor(img, x, y) {
+    this.sprite = img;
+    this.x = x;
+    this.y = y;
+    this.width = 50;
+    this.height = 40;
+  }
+  update(dt) {
+  }
+  render() {
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+};
+  //when collision with player increase score when collision with bug disapper
+  //randomly appear on field
+const sapphire = new Gem('images/gem-blue.png', 200, 400);
+const emerald = new Gem('images/gem-green.png', 100, 200);
+const citrine = new Gem('images/gem-orange.png', 100, 300);
+const allGems = [sapphire, emerald, citrine];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
