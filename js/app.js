@@ -84,20 +84,21 @@ class Gem {
     this.sprite = img;
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 40;
+    this.width = 101 * 0.65;
+    this.height = 171 * 0.65;
   }
   update(dt) {
   }
   render() {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.width, this.height);
+
   }
 };
   //when collision with player increase score when collision with bug disapper
   //randomly appear on field
-const sapphire = new Gem('images/gem-blue.png', 200, 400);
-const emerald = new Gem('images/gem-green.png', 100, 200);
-const citrine = new Gem('images/gem-orange.png', 100, 300);
+const sapphire = new Gem('images/gem-blue.png', 320, 430); //'images/gem-blue.png'
+const emerald = new Gem('images/gem-green.png', 120, 183);
+const citrine = new Gem('images/gem-orange.png', 120, 267);
 const allGems = [sapphire, emerald, citrine];
 
 // This listens for key presses and sends the keys to your
