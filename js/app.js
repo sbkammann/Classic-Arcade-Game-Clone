@@ -7,7 +7,7 @@ class Enemy {
     this.y = y;
     this.hY = this.y + 75;  //hitbox top left corner Y coodinate
     this.speedX = speedX;
-    this.width = 100;
+    this.width = 95;
     this.height = 70;
 
   }
@@ -72,8 +72,11 @@ class Player extends Enemy {
           gem.hX + gem.width > player.hX &&
           gem.hY < player.hY + player.height &&
           gem.hY + gem.height > player.hY){
-        gem.x = 200;
-        gem.y = 200;
+        gem.x = 218;
+        gem.hX = gem.x + 4;
+        gem.y = 238;
+        gem.hY = gem.y + 45;
+
         console.log('collision');
         }
       });
@@ -110,25 +113,30 @@ class Gem {
   constructor(img, x, y) {
     this.sprite = img;
     this.x = x;
+    this.hX = this.x + 4; //hitbox top left corner x coodinate
     this.y = y;
+    this.hY = this.y + 45; //hitbox top left corner y coodinate
     this.imgWidth = 101 * 0.65;
     this.imgHeight = 171 * 0.65;
-    this.width = 100;
-    this.height = 100;
+    this.width = 60;
+    this.height = 60;
   }
   update(dt) {
 
   }
   render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.imgWidth, this.imgHeight);
+      ctx.beginPath();
+      ctx.rect(this.hX, this.hY, this.width, this.height);
+      ctx.stroke();
 
   }
 };
   //when collision with player increase score when collision with bug disapper
   //randomly appear on field
-const sapphire = new Gem('images/gem-blue.png', 0, 0);
-const emerald = new Gem('images/gem-green.png', 0, 0);
-const citrine = new Gem('images/gem-orange.png', 0, 0);
+const sapphire = new Gem('images/gem-blue.png', 118, 338);
+const emerald = new Gem('images/gem-green.png', 218, 338);
+const citrine = new Gem('images/gem-orange.png', 318, 338);
 const allGems = [sapphire, emerald, citrine];
 
 // This listens for key presses and sends the keys to your
