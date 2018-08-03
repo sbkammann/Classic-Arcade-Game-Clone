@@ -72,11 +72,10 @@ class Player extends Enemy {
           gem.hX + gem.width > player.hX &&
           gem.hY < player.hY + player.height &&
           gem.hY + gem.height > player.hY){
-        gem.x = 218;
+        gem.x = (101*(Math.floor(Math.random()*5)+1))+15;
         gem.hX = gem.x + 4;
-        gem.y = 238;
+        gem.y = (85*(Math.floor(Math.random()*5)+1))+83;
         gem.hY = gem.y + 45;
-
         console.log('collision');
         }
       });
@@ -138,6 +137,19 @@ const sapphire = new Gem('images/gem-blue.png', 118, 338);
 const emerald = new Gem('images/gem-green.png', 218, 338);
 const citrine = new Gem('images/gem-orange.png', 318, 338);
 const allGems = [sapphire, emerald, citrine];
+// let gem1, gem2, gem3, gem4, gem5, gem6, gem7;
+// let allGems = [];
+// let index = 0;
+// for (let i=0; i <5; i++){
+//   for(let j=0; j <5; j++){
+//   index++;
+//   allGems[index] = 'gem' + index+1;
+//   allGems[index] = new Gem('images/gem-blue.png', (101*i)+15, (85*j)+83);
+//   }
+// }
+
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
