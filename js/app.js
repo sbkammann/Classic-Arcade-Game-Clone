@@ -1,3 +1,22 @@
+//random x coordinate for gems
+function ranGX(){
+  return (101*(Math.floor(Math.random()*4)))+15;
+}
+//random y coordinate for gems
+function ranGY(){
+  return (85*(Math.floor(Math.random()*4)))+83;
+}
+
+const modalBox = document.querySelector('.modalBox');
+
+//  modalBox.addEventListener('click', function select(event){
+//  console.log(event.target.getAttribute('value'));
+// });
+
+
+
+modalBox.addEventListener('click', select);
+  // event.target.style.backgroundColor = color;
 // Enemies our player must avoid
 class Enemy {
   constructor(img, x, y, speedX) {
@@ -72,9 +91,9 @@ class Player extends Enemy {
           gem.hX + gem.width > player.hX &&
           gem.hY < player.hY + player.height &&
           gem.hY + gem.height > player.hY){
-        gem.x = (101*(Math.floor(Math.random()*5)+1))+15;
+        gem.x = ranGX();
         gem.hX = gem.x + 4;
-        gem.y = (85*(Math.floor(Math.random()*5)+1))+83;
+        gem.y = ranGY();
         gem.hY = gem.y + 45;
         console.log('collision');
         }
@@ -103,8 +122,15 @@ class Player extends Enemy {
     }
   }
 };
+const charSelect = ['images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-boy.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
 
-const player = new Player('images/char-boy.png' , 200, 400, 100, 85); //
+function select(event){
+  let char = event.target.getAttribute('value')
+  player.sprite = charSelect[char];
+}
+
+const player = new Player(charSelect[char = 2] , 200, 400, 100, 85);
+ //
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -133,9 +159,9 @@ class Gem {
 };
   //when collision with player increase score when collision with bug disapper
   //randomly appear on field
-const sapphire = new Gem('images/gem-blue.png', 118, 338);
-const emerald = new Gem('images/gem-green.png', 218, 338);
-const citrine = new Gem('images/gem-orange.png', 318, 338);
+const sapphire = new Gem('images/gem-blue.png', ranGX(), ranGY());
+const emerald = new Gem('images/gem-green.png', ranGX(), ranGY());
+const citrine = new Gem('images/gem-orange.png', ranGX(), ranGY());
 const allGems = [sapphire, emerald, citrine];
 // let gem1, gem2, gem3, gem4, gem5, gem6, gem7;
 // let allGems = [];
