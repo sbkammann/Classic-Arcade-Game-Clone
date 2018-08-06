@@ -8,15 +8,15 @@ function ranGY(){
 }
 
 const modalBox = document.querySelector('.modalBox');
-
+let l = 253;
 //  modalBox.addEventListener('click', function select(event){
 //  console.log(event.target.getAttribute('value'));
 // });
 
+const selector = document.querySelector('.selectorLayer');
 
 
-modalBox.addEventListener('click', select);
-  // event.target.style.backgroundColor = color;
+
 // Enemies our player must avoid
 class Enemy {
   constructor(img, x, y, speedX) {
@@ -91,11 +91,11 @@ class Player extends Enemy {
           gem.hX + gem.width > player.hX &&
           gem.hY < player.hY + player.height &&
           gem.hY + gem.height > player.hY){
-        gem.x = ranGX();
-        gem.hX = gem.x + 4;
-        gem.y = ranGY();
-        gem.hY = gem.y + 45;
-        console.log('collision');
+          gem.x = ranGX();
+          gem.hX = gem.x + 4;
+          gem.y = ranGY();
+          gem.hY = gem.y + 45;
+          console.log('collision');
         }
       });
     })();
@@ -123,11 +123,6 @@ class Player extends Enemy {
   }
 };
 const charSelect = ['images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-boy.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
-
-function select(event){
-  let char = event.target.getAttribute('value')
-  player.sprite = charSelect[char];
-}
 
 const player = new Player(charSelect[char = 2] , 200, 400, 100, 85);
  //
@@ -176,16 +171,51 @@ const allGems = [sapphire, emerald, citrine];
 
 
 
-
+let modalClosed = false;
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
+
+  document.addEventListener('keyup', function(e) {
+    if(modalClosed){
+      var allowedKeys = {
+          37: 'left',
+          38: 'up',
+          39: 'right',
+          40: 'down'
+      };
+  //if modal is closed
+      player.handleInput(allowedKeys[e.keyCode]);
+    }
+  });
+
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
-        38: 'up',
         39: 'right',
-        40: 'down'
     };
-
-    player.handleInput(allowedKeys[e.keyCode]);
+          if (allowedKeys[e.keyCode] === 'left' && l !== 47){
+            l -= 103;
+          }
+          if (allowedKeys[e.keyCode] === 'right' && l !== 459){
+              l += 103;
+          }
+  console.log(l);
+  selector.style.left = l.toString() + 'px';
 });
+
+const accept = document.querySelector('.accept');
+
+accept.addEventListener('click', function() {
+  document.querySelector('.modalBox').style.opacity = '0';
+  document.querySelector('.modalBg').style.opacity = '0';
+  modalClosed = true;
+  char = Math.round(((l/50)-1)/2);
+  console.log(char);
+    // if (char === null) {
+    //   char = 2;
+    // }
+    player.sprite = charSelect[char];
+  //close window   .
+  //use selection to change character
+  //modal closed true
+ });

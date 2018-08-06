@@ -2,33 +2,56 @@ body {
     text-align: center;
 }
 
-.modalBox {
-  position: fixed; /* create the modal window layer, and have it fill the entire screen */
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8); /* set the modal window layer's background color to a translucent black */
-  z-index: 99999; /* put the layer on top of every other layer */
-  /* opacity:0; make the layer invisible intially */
-  /* pointer-events: none; */
-}
-
-.modalBox:target {
-  opacity:1; /* make the modal window layer visible
-  /* pointer-events: auto; */
-}
-
-.modalBox {
-  width: 600px; /* set the window's width */
-  position: relative;
-  margin: 10% auto; /* center the window horizontally */
-  padding: 5px;
-  background: #fff;
-}
-
 .char {
-  width: 80px;
+  width: 100px;
   height: 100px;
   display: inline-block;
+}
+
+.modalBox {
+  top: 160px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  background: grey;
+  /* background-color: black; */
+  width: 600px;
+  height: 300px;
+  border: 5px solid cyan;
+  z-index: 2;
+}
+.marginControl {
+  margin-left: 25px;
+}
+.modalBg {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.selectorLayer{
+  z-index: 3;
+  position: absolute;
+  top: 50px;
+  left: 258px; /* 50, 155, 260, 365, 465 */
+}
+.charLineUp {
+  z-index: 4;
+  position: absolute;
+  top: 50px;
+  left: 45px;
+}
+.accept {
+  position: relative;
+  top: 170px;
+  height: 40px;
+  width: 112px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: magenta;
+  border: 5px solid black;
+  font-size: 16px;
+  font-weight: bold;
 }
