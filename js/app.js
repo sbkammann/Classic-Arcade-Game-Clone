@@ -15,7 +15,7 @@ let l = 253;
 
 const selector = document.querySelector('.selectorLayer');
 let points = 0;
-
+let insane = false;
 
 // Enemies our player must avoid
 class Enemy {
@@ -39,7 +39,14 @@ class Enemy {
          this.hX = this.x + 4;
          if (this.x > 600){
            this.x =-100;
+        if(this.y < 400 && insane)
+           this.y = this.y + 83;
+           this.hY = this.y + 75;
          }
+        if (this.y > 400 && insane){
+          this.y = 60;
+          this.hY = this.y + 75;
+        }
 
   }
   render() {
@@ -52,8 +59,17 @@ class Enemy {
 const enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 60);
 const enemy2 = new Enemy('images/enemy-bug.png', -100, 145, 100);
 const enemy3 = new Enemy('images/enemy-bug.png', 100, 230, 80);
-
 var allEnemies = [enemy1, enemy2, enemy3];
+
+if(insane) {
+  const enemy4 = new Enemy('images/enemy-bug.png', -100, 300, 110);
+  const enemy5 = new Enemy('images/enemy-bug.png', 100, 400, 90);
+  const enemy6 = new Enemy('images/enemy-bug.png', -100, 400, 200);
+  const enemy7 = new Enemy('images/enemy-bug.png', 100, 145, 60);
+  allEnemies.push(enemy4, enemy5, enemy6, enemy7);
+}
+
+
 
 class Player extends Enemy {
   constructor(img, x, y, speedX, speedY) {
@@ -91,13 +107,12 @@ class Player extends Enemy {
           gem.hX + gem.width > player.hX &&
           gem.hY < player.hY + player.height &&
           gem.hY + gem.height > player.hY){
-          gem.x = ranGX();
-          gem.hX = gem.x + 4;
-          gem.y = ranGY();
-          gem.hY = gem.y + 45;
-          console.log('collision');
-          points +=100;
+          points +=gem.pts;
           document.getElementById("pointsDisplay").innerHTML = points;
+           gem.x = ranGX();
+           gem.hX = gem.x + 4;
+           gem.y = ranGY();
+           gem.hY = gem.y + 45;
         }
       });
     })();
@@ -132,7 +147,7 @@ const player = new Player(charSelect[char = 2] , 200, 400, 100, 85);
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 class Gem {
-  constructor(img, x, y) {
+  constructor(img, x, y, pts, spawnT) {
     this.sprite = img;
     this.x = x;
     this.hX = this.x + 4; //hitbox top left corner x coodinate
@@ -142,6 +157,8 @@ class Gem {
     this.imgHeight = 171 * 0.65;
     this.width = 60;
     this.height = 60;
+    this.pts = pts;
+    this.spawnT = spawnT; //time to respawn
   }
   update(dt) {
 
@@ -156,9 +173,9 @@ class Gem {
 };
   //when collision with player increase score when collision with bug disapper
   //randomly appear on field
-const sapphire = new Gem('images/gem-blue.png', ranGX(), ranGY());
-const emerald = new Gem('images/gem-green.png', ranGX(), ranGY());
-const citrine = new Gem('images/gem-orange.png', ranGX(), ranGY());
+const sapphire = new Gem('images/gem-blue.png', ranGX(), ranGY(), 300, 9000);
+const emerald = new Gem('images/gem-green.png', ranGX(), ranGY(), 200, 6000);
+const citrine = new Gem('images/gem-orange.png', ranGX(), ranGY(), 100, 3000);
 const allGems = [sapphire, emerald, citrine];
 // let gem1, gem2, gem3, gem4, gem5, gem6, gem7;
 // let allGems = [];
@@ -220,8 +237,12 @@ const next = document.querySelector('.next');
 next.addEventListener('click', function() {
     document.querySelector('.welcomeWindow').style.zIndex = '-1';
     document.querySelector('.welcomeWindow').style.opacity = '0';
+    if(document.forms[0][1].checked) {
+      insane = true; //why won't it create the other enemy instances?? 
+    }
+  });
 
-});
+// });
 
 let hours = 0;
 let minutes = 0;
