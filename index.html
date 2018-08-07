@@ -8,11 +8,25 @@
 <body>
 
   <!-- <a href="#modalWindow">Modal Window</a> id="modalWindow"-->
+
+
 <div class="modalBg">
   <div class="marginControl">
     <div class="modalBox">
+      <div class="marginCorrection">
+        <div class="welcomeWindow">
+          <h1 class="welcome">Welcome to Classic Arcade Game Clone!</h1>
+          <p>Select a difficulty</p>
+          <input id="radio1" type="radio" name="difficulty" value="baby" title="You will get bored">
+          <label class="radio" for="radio1">Baby</label>
+          <input id="radio2" type="radio" name="difficulty" value="insane" title="You will get frustrated">
+          <label class="radio" for="radio2">iNSaNe</label>
+          <button class="next">Next</button>
+        </div>
+      </div>
+
       <div>
-        <h1>Select Character</h1>
+        <h1 class="title"> Select Character Using Arrow Keys</h1>
         <div class="charLineUp">
           <div class="char">
             <img src="images/char-cat-girl.png" value="0">
@@ -30,7 +44,7 @@
               <img src="images/char-princess-girl.png" value="4">
           </div>
         </div>
-        <button class="accept">Accept</button>  <!-- finalize char choice and close window begin game after keystroke -->
+        <button class="accept">Start</button>  <!-- finalize char choice and close window begin game after keystroke -->
       </div>
       <div class="selectorLayer">
         <img src="images/Selector.png">
@@ -39,7 +53,14 @@
   </div>
 </div>
 
-    <span>Score:</span>
+<div class="hud">
+  <span class="hudContent">Time:
+    <span id="timeDisplay">00:00:00</span>
+  </span>
+  <span class="hudContent">Points:
+    <span id="pointsDisplay">0</span>
+  </span>
+</div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>

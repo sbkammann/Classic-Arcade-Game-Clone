@@ -14,7 +14,7 @@ let l = 253;
 // });
 
 const selector = document.querySelector('.selectorLayer');
-
+let points = 0;
 
 
 // Enemies our player must avoid
@@ -96,6 +96,8 @@ class Player extends Enemy {
           gem.y = ranGY();
           gem.hY = gem.y + 45;
           console.log('collision');
+          points +=100;
+          document.getElementById("pointsDisplay").innerHTML = points;
         }
       });
     })();
@@ -199,10 +201,11 @@ document.addEventListener('keyup', function(e) {
           if (allowedKeys[e.keyCode] === 'right' && l !== 459){
               l += 103;
           }
-  console.log(l);
+  // console.log(l);
   selector.style.left = l.toString() + 'px';
 });
 
+let timerStart = false;
 const accept = document.querySelector('.accept');
 
 accept.addEventListener('click', function() {
@@ -210,12 +213,45 @@ accept.addEventListener('click', function() {
   document.querySelector('.modalBg').style.opacity = '0';
   modalClosed = true;
   char = Math.round(((l/50)-1)/2);
-  console.log(char);
-    // if (char === null) {
-    //   char = 2;
-    // }
-    player.sprite = charSelect[char];
-  //close window   .
-  //use selection to change character
-  //modal closed true
+  player.sprite = charSelect[char];
+  timerStart = true;
  });
+const next = document.querySelector('.next');
+next.addEventListener('click', function() {
+    document.querySelector('.welcomeWindow').style.zIndex = '-1';
+    document.querySelector('.welcomeWindow').style.opacity = '0';
+
+});
+
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+let hourText = '00';
+let minText = '00';
+let secText = '00';
+const timeArray = [[hours, hourText], [minutes, minText], [seconds, secText]];
+
+setInterval(function() {
+  if (timerStart){
+  timeArray[2][0]++;
+  if (timeArray[2][0] === 60){
+    timeArray[1][0]++;
+    timeArray[2][0] = 0;
+  }
+  if (timeArray[1][0] === 60){
+    timeArray[0][0]++;
+    timeArray[1][0] =0;
+  }
+  for (let i = 0; i < timeArray.length; i++){
+    if (timeArray[i][0].toString().length < 2){
+      timeArray[i][1] = '0' + timeArray[i][0].toString();
+    }
+    else {
+      timeArray[i][1] = timeArray[i][0].toString();
+    }
+   }
+  let time = `${timeArray[0][1]}:${timeArray[1][1]}:${timeArray[2][1]}`;
+  document.getElementById("timeDisplay").innerHTML = time;
+  // sessionStorage.setItem('time', time);
+}
+}, 1000);
