@@ -9,7 +9,7 @@ body {
   height: 330px;
   z-index: 5;
 }
-.welcome {
+.welcome, .winMessage {
 color:  rgb(239, 249, 157);
 text-decoration: underline;
 }
@@ -22,7 +22,7 @@ p {
 }
 .next {
   position: relative;
-  top: 110px;
+  top: 57px;
   height: 40px;
   width: 112px;
   display: block;
@@ -54,7 +54,7 @@ p {
   z-index: 2;
 }
 .marginControl {
-  margin-left: 25px;
+  margin-left: -15px; /*25 */
 }
 .modalBg {
   background: rgba(0, 0, 0, 0.7);
@@ -109,4 +109,45 @@ p {
   width: 50%;
   margin: none;
   text-align: left;
+}
+.winWindow {
+  top: 190px;
+  position: fixed;
+  background: grey;
+  width: 590px;
+  height: 330px;
+  z-index: -5;
+  opacity: 0;
+}
+
+td {
+  font-size: 18px;
+  color:  rgb(239, 249, 157);
+}
+table {
+  margin-left: 40%;
+}
+.restart {
+  position: relative;
+  top: 15px;
+  height: 40px;
+  width: 112px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(239, 249, 157);
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+.num {
+  text-align: right;
+}
+.alert {
+color: red;
+font-weight: bold;
+font-size: 20px;
+position: relative;
+top: 30px;
+opacity: 0;
 }

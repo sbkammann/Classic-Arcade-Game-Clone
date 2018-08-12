@@ -1,3 +1,8 @@
+/* Classic Arcade Game Clone
+*
+*Last revision 8/11/2018
+*/
+
 //random x coordinate for gems
 function ranGX(){
   return (101*(Math.floor(Math.random()*4)))+15;
@@ -7,20 +12,30 @@ function ranGY(){
   return (85*(Math.floor(Math.random()*4)))+83;
 }
 
-const modalBox = document.querySelector('.modalBox');
-let l = 253;
-//  modalBox.addEventListener('click', function select(event){
-//  console.log(event.target.getAttribute('value'));
-// });
+// variables needed for the timer
+let time = 0;
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+let hourText = '00';
+let minText = '00';
+let secText = '00';
+const timeArray = [[hours, hourText], [minutes, minText], [seconds, secText]];
+let timerStart = false;
 
 const selector = document.querySelector('.selectorLayer');
 let points = 0;
+// if set to true activates hard game mode
 let insane = false;
+// doesn't allow the player to move when a modal window is visible
+let modalClosed = false;
+const modalBox = document.querySelector('.modalBox');
+let l = 253;
 
 // Enemies our player must avoid
 class Enemy {
   constructor(img, x, y, speedX) {
-    this.sprite = img; //'images/enemy-bug.png';
+    this.sprite = img;
     this.x = x;
     this.hX = this.x + 4;  //hitbox top left corner x coodinate
     this.y = y;
@@ -28,17 +43,13 @@ class Enemy {
     this.speedX = speedX;
     this.width = 95;
     this.height = 70;
-
   }
   update(dt) {
-      // You should multiply any movement by the dt parameter
-      // which will ensure the game runs at the same speed for
-      // all computers.
-      // is this the window object?
          this.x +=  this.speedX * dt;
          this.hX = this.x + 4;
          if (this.x > 600){
            this.x =-100;
+           // allows enemies to travel on the grass. This means there is no safe zone.
         if(this.y < 400 && insane)
            this.y = this.y + 83;
            this.hY = this.y + 75;
@@ -47,30 +58,22 @@ class Enemy {
           this.y = 60;
           this.hY = this.y + 75;
         }
-
   }
   render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-      ctx.beginPath();
-      ctx.rect(this.hX, this.hY, this.width, this.height);
-      ctx.stroke();
+      // Hitbox animation for testing
+      // ctx.beginPath();
+      // ctx.rect(this.hX, this.hY, this.width, this.height);
+      // ctx.stroke();
   }
 };
+// creates enemy instances
 const enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 60);
 const enemy2 = new Enemy('images/enemy-bug.png', -100, 145, 100);
 const enemy3 = new Enemy('images/enemy-bug.png', 100, 230, 80);
 var allEnemies = [enemy1, enemy2, enemy3];
 
-if(insane) {
-  const enemy4 = new Enemy('images/enemy-bug.png', -100, 300, 110);
-  const enemy5 = new Enemy('images/enemy-bug.png', 100, 400, 90);
-  const enemy6 = new Enemy('images/enemy-bug.png', -100, 400, 200);
-  const enemy7 = new Enemy('images/enemy-bug.png', 100, 145, 60);
-  allEnemies.push(enemy4, enemy5, enemy6, enemy7);
-}
-
-
-
+// sets up player class
 class Player extends Enemy {
   constructor(img, x, y, speedX, speedY) {
     super(img, x, y, speedX);
@@ -86,6 +89,9 @@ class Player extends Enemy {
 
   }
   update(dt) {
+    // checks to see if the hitboxes of the player of an enemy overlap
+    //if they do resets the game by putting the player back on the starting square
+    //and setting points and time to zero
     (function collision() {
     allEnemies.forEach(function(enemy) {
       if (enemy.hX < player.hX + player.width &&
@@ -96,11 +102,16 @@ class Player extends Enemy {
         player.hX = player.x + 25;
         player.y = 400;
         player.hY = player.y + 75;
-        console.log('collision');
+        timeArray.forEach(function(index, val) {
+          timeArray[val][0] = 0;
+        });
+        points = 0;
+        document.getElementById("pointsDisplay").innerHTML = points;
         }
       });
     })();
-
+    //handles gem collections by detecting hitbox overlap of player and gems and adds gem
+    //point value to points
     (function collision() {
     allGems.forEach(function(gem) {
       if (gem.hX < player.hX + player.width &&
@@ -116,36 +127,45 @@ class Player extends Enemy {
         }
       });
     })();
+// detects when the player is in the water and ends the game by bring up the highscore
+//modal window
+    if (this.y === -25) {
+      document.getElementById("highscore").innerHTML = points;
+      modalClosed = false;
+      document.querySelector('.winWindow').style.zIndex = '5';
+      document.querySelector('.winWindow').style.opacity = '1';
+      document.querySelector('.modalBg').style.opacity = '1';
+      document.querySelector('.modalBox').style.opacity = '1';
+    }
   }
   render() {
     super.render();
   }
   handleInput(e) {
-    if (e === 'left' && this.x !== 0){
-      this.x -= this.speedX;
-      this.hX = this.x + 25;
-    }
-    if (e === 'right' && this.x !== 400){
-      this.x += this.speedX;
-      this.hX = this.x + 25;
-    }
-    if (e === 'up' && this.y !== -25){
-      this.y -= this.speedY;
-      this.hY = this.y + 75;
-    }
-    if (e === 'down' && this.y !== 400){
-      this.y += this.speedY;
-      this.hY = this.y + 75;
-    }
+    //controls player and stops player from exiting map
+      if (e === 'left' && this.x !== 0){
+        this.x -= this.speedX;
+        this.hX = this.x + 25;
+      }
+      if (e === 'right' && this.x !== 400){
+        this.x += this.speedX;
+        this.hX = this.x + 25;
+      }
+      if (e === 'up' && this.y !== -25){
+        this.y -= this.speedY;
+        this.hY = this.y + 75;
+      }
+      if (e === 'down' && this.y !== 400){
+        this.y += this.speedY;
+        this.hY = this.y + 75;
+      }
   }
 };
+//character skin pool
 const charSelect = ['images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-boy.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
-
+//creates player instance. Default is char-boy
 const player = new Player(charSelect[char = 2] , 200, 400, 100, 85);
- //
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// sets up gem class
 class Gem {
   constructor(img, x, y, pts, spawnT) {
     this.sprite = img;
@@ -157,43 +177,27 @@ class Gem {
     this.imgHeight = 171 * 0.65;
     this.width = 60;
     this.height = 60;
-    this.pts = pts;
-    this.spawnT = spawnT; //time to respawn
+    this.pts = pts; //point value
   }
   update(dt) {
 
   }
   render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.imgWidth, this.imgHeight);
-      ctx.beginPath();
-      ctx.rect(this.hX, this.hY, this.width, this.height);
-      ctx.stroke();
-
+      // Hitbox animation for testing
+      // ctx.beginPath();
+      // ctx.rect(this.hX, this.hY, this.width, this.height);
+      // ctx.stroke();
   }
 };
-  //when collision with player increase score when collision with bug disapper
-  //randomly appear on field
-const sapphire = new Gem('images/gem-blue.png', ranGX(), ranGY(), 300, 9000);
-const emerald = new Gem('images/gem-green.png', ranGX(), ranGY(), 200, 6000);
-const citrine = new Gem('images/gem-orange.png', ranGX(), ranGY(), 100, 3000);
+// creates gem instances
+const sapphire = new Gem('images/gem-blue.png', ranGX(), ranGY(), 300);
+const emerald = new Gem('images/gem-green.png', ranGX(), ranGY(), 200);
+const citrine = new Gem('images/gem-orange.png', ranGX(), ranGY(), 100);
 const allGems = [sapphire, emerald, citrine];
-// let gem1, gem2, gem3, gem4, gem5, gem6, gem7;
-// let allGems = [];
-// let index = 0;
-// for (let i=0; i <5; i++){
-//   for(let j=0; j <5; j++){
-//   index++;
-//   allGems[index] = 'gem' + index+1;
-//   allGems[index] = new Gem('images/gem-blue.png', (101*i)+15, (85*j)+83);
-//   }
-// }
 
-
-
-let modalClosed = false;
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-
   document.addEventListener('keyup', function(e) {
     if(modalClosed){
       var allowedKeys = {
@@ -202,11 +206,10 @@ let modalClosed = false;
           39: 'right',
           40: 'down'
       };
-  //if modal is closed
       player.handleInput(allowedKeys[e.keyCode]);
     }
   });
-
+// moves selector image to move with arrow keys in the character select  modal window
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -218,40 +221,48 @@ document.addEventListener('keyup', function(e) {
           if (allowedKeys[e.keyCode] === 'right' && l !== 459){
               l += 103;
           }
-  // console.log(l);
   selector.style.left = l.toString() + 'px';
 });
 
-let timerStart = false;
+
 const accept = document.querySelector('.accept');
 
 accept.addEventListener('click', function() {
+  //closes modal
   document.querySelector('.modalBox').style.opacity = '0';
   document.querySelector('.modalBg').style.opacity = '0';
   modalClosed = true;
   char = Math.round(((l/50)-1)/2);
+  // sets character image based on selection
   player.sprite = charSelect[char];
+  // starts timer
   timerStart = true;
  });
+
 const next = document.querySelector('.next');
 next.addEventListener('click', function() {
+  // checks which difficulty was selected
+  if(document.forms[0][0].checked || document.forms[0][1].checked) {
     document.querySelector('.welcomeWindow').style.zIndex = '-1';
     document.querySelector('.welcomeWindow').style.opacity = '0';
     if(document.forms[0][1].checked) {
-      insane = true; //why won't it create the other enemy instances?? 
+      insane = true;
     }
+    if(insane) {
+      // creates more enemy instances
+      const enemy4 = new Enemy('images/enemy-bug.png', -100, 300, 110);
+      const enemy5 = new Enemy('images/enemy-bug.png', 100, 400, 90);
+      const enemy6 = new Enemy('images/enemy-bug.png', -100, 400, 200);
+      const enemy7 = new Enemy('images/enemy-bug.png', 100, 145, 60);
+      allEnemies.push(enemy4, enemy5, enemy6, enemy7);
+    }
+  }
+  else {
+  // prompts the user to select one of the radio buttons
+  document.querySelector('.alert').style.opacity = '1';
+  }
   });
-
-// });
-
-let hours = 0;
-let minutes = 0;
-let seconds = 0;
-let hourText = '00';
-let minText = '00';
-let secText = '00';
-const timeArray = [[hours, hourText], [minutes, minText], [seconds, secText]];
-
+//timer
 setInterval(function() {
   if (timerStart){
   timeArray[2][0]++;
@@ -271,8 +282,24 @@ setInterval(function() {
       timeArray[i][1] = timeArray[i][0].toString();
     }
    }
-  let time = `${timeArray[0][1]}:${timeArray[1][1]}:${timeArray[2][1]}`;
+  time = `${timeArray[0][1]}:${timeArray[1][1]}:${timeArray[2][1]}`;
   document.getElementById("timeDisplay").innerHTML = time;
-  // sessionStorage.setItem('time', time);
 }
 }, 1000);
+
+const restart = document.querySelector('.restart');
+restart.addEventListener('click', function() {
+    document.querySelector('.winWindow').style.zIndex = '-1';
+    document.querySelector('.winWindow').style.opacity = '0';
+    modalClosed = true;
+    // resets game so the player can play again
+    player.x = 200;
+    player.hX = player.x + 25;
+    player.y = 400;
+    player.hY = player.y + 75;
+    points = 0;
+    document.getElementById("pointsDisplay").innerHTML = points;
+    timeArray.forEach(function(index, val) {
+      timeArray[val][0] = 0;
+    });
+  });
