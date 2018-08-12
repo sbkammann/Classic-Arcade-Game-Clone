@@ -1,105 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Effective JavaScript: Frogger</title>
+  <link rel="shortcut icon" href="images/char-boy.png">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- <a href="#modalWindow">Modal Window</a> id="modalWindow"-->
-
-
-<div class="modalBg">
-  <div class="marginControl">
-    <div class="modalBox">
-      <div class="marginCorrection">
-        <div class="welcomeWindow">
-          <h1 class="welcome">Welcome to Classic Arcade Game Clone!</h1>
-          <p>Select a difficulty</p>
-          <form>
-            <input id="radio1" type="radio" name="difficulty" value="baby" title="You will get bored">
-            <label class="radio" for="radio1">Baby</label>
-            <input id="radio2" type="radio" name="difficulty" value="insane" title="You will get frustrated">
-            <label class="radio" for="radio2">iNSaNe</label>
-          </form>
-          <span class="alert">You have to select one!<span>
-          <button class="next">Next</button>
-        </div>
-      </div>
-
-      <div>
-        <h1 class="title"> Select Character Using Arrow Keys</h1>
-        <div class="charLineUp">
-          <div class="char">
-            <img src="images/char-cat-girl.png" value="0">
-          </div>
-          <div class="char">
-            <img src="images/char-horn-girl.png" value="1">
-          </div>
-          <div class="char">
-              <img src="images/char-boy.png" value="2">
-          </div>
-          <div class="char">
-            <img src="images/char-pink-girl.png" value="3">
-          </div>
-          <div class="char">
-              <img src="images/char-princess-girl.png" value="4">
+  <div class="modalBg">
+    <div class="marginControl">
+      <div class="modalBox">
+        <div class="marginCorrection">
+          <div class="welcomeWindow">
+            <h1 class="welcome">Welcome to Classic Arcade Game Clone!</h1>
+            <p>Select a difficulty</p>
+            <form>
+              <input id="radio1" type="radio" name="difficulty" value="baby" title="You will get bored">
+              <label class="radio" for="radio1">Baby</label>
+              <input id="radio2" type="radio" name="difficulty" value="insane" title="You will get frustrated">
+              <label class="radio" for="radio2">iNSaNe</label>
+            </form>
+            <span class="alert">You have to select one!<span>
+            <button class="next">Next</button>
           </div>
         </div>
-        <button class="accept">Start</button>  <!-- finalize char choice and close window begin game after keystroke -->
-      </div>
-      <div class="selectorLayer">
-        <img src="images/Selector.png">
-      </div>
-      <div class="marginCorrection">
-        <div class="winWindow">
-          <h1 class="winMessage">You win!</h1>
-          <p>High Score</p>
-          <table>
-            <tr>
-              <td>1.</td>
-              <td>KAI</td>
-              <td class="num">99999900</td>
+        <div>
+          <h1 class="title"> Select Character Using Arrow Keys</h1>
+          <div class="charLineUp">
+            <div class="char">
+              <img src="images/char-cat-girl.png" value="0">
+            </div>
+            <div class="char">
+              <img src="images/char-horn-girl.png" value="1">
+            </div>
+            <div class="char">
+                <img src="images/char-boy.png" value="2">
+            </div>
+            <div class="char">
+              <img src="images/char-pink-girl.png" value="3">
+            </div>
+            <div class="char">
+                <img src="images/char-princess-girl.png" value="4">
+            </div>
+          </div>
+          <button class="accept">Start</button>  
+        </div>
+        <div class="selectorLayer">
+          <img src="images/Selector.png">
+        </div>
+        <div class="marginCorrection">
+          <div class="winWindow">
+            <h1 class="winMessage">You win!</h1>
+            <p>High Score</p>
+            <table>
+              <tr>
+                <td>1.</td>
+                <td>KAI</td>
+                <td class="num">99999900</td>
+              </tr>
+              <tr>
+                <td>2.</td>
+                <td>YUG</td>
+                <td class="num">99999800</td>
+              </tr>
+              <tr>
+                <td>3.</td>
+                <td>ACE</td>
+                <td class="num">99999700</td>
             </tr>
             <tr>
-              <td>2.</td>
-              <td>YUG</td>
-              <td class="num">99999800</td>
+              <td>4.</td>
+              <td>SAM</td>
+              <td class="num">99999600</td>
             </tr>
             <tr>
-              <td>3.</td>
-              <td>ACE</td>
-              <td class="num">99999700</td>
-          </tr>
-          <tr>
-            <td>4.</td>
-            <td>SAM</td>
-            <td class="num">99999600</td>
-          </tr>
-          <tr>
-            <td>5.</td>
-            <td>YOU</td>
-            <td id="highscore" class="num">999500</td>  <!-- create logic to input score -->
-          </tr>
-        </table>
-        <button class="restart">Play Again?</button>
+              <td>5.</td>
+              <td>YOU</td>
+              <td id="highscore" class="num">999500</td>
+            </tr>
+          </table>
+          <button class="restart">Play Again?</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="hud">
-  <span class="hudContent">Time:
-    <span id="timeDisplay">00:00:00</span>
-  </span>
-  <span class="hudContent">Points:
-    <span id="pointsDisplay">0</span>
-  </span>
-</div>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
+  <div class="hud">
+    <span class="hudContent">Time:
+      <span id="timeDisplay">00:00:00</span>
+    </span>
+    <span class="hudContent">Points:
+      <span id="pointsDisplay">0</span>
+    </span>
+  </div>
+  <script src="js/resources.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/engine.js"></script>
 </body>
 </html>

@@ -86,49 +86,48 @@ class Player extends Enemy {
     this.speedY = speedY;
     this.width = 50;   //hitbox width
     this.height = 50;  //hitbox height
-
   }
   update(dt) {
     // checks to see if the hitboxes of the player of an enemy overlap
     //if they do resets the game by putting the player back on the starting square
     //and setting points and time to zero
     (function collision() {
-    allEnemies.forEach(function(enemy) {
-      if (enemy.hX < player.hX + player.width &&
-          enemy.hX + enemy.width > player.hX &&
-          enemy.hY < player.hY + player.height &&
-          enemy.hY + enemy.height > player.hY){
-        player.x = 200;
-        player.hX = player.x + 25;
-        player.y = 400;
-        player.hY = player.y + 75;
-        timeArray.forEach(function(index, val) {
-          timeArray[val][0] = 0;
+      allEnemies.forEach(function(enemy) {
+        if (enemy.hX < player.hX + player.width &&
+            enemy.hX + enemy.width > player.hX &&
+            enemy.hY < player.hY + player.height &&
+            enemy.hY + enemy.height > player.hY){
+              player.x = 200;
+              player.hX = player.x + 25;
+              player.y = 400;
+              player.hY = player.y + 75;
+              timeArray.forEach(function(index, val) {
+                timeArray[val][0] = 0;
+              });
+              points = 0;
+              document.getElementById("pointsDisplay").innerHTML = points;
+          }
         });
-        points = 0;
-        document.getElementById("pointsDisplay").innerHTML = points;
-        }
-      });
-    })();
+      })();
     //handles gem collections by detecting hitbox overlap of player and gems and adds gem
     //point value to points
     (function collision() {
-    allGems.forEach(function(gem) {
-      if (gem.hX < player.hX + player.width &&
-          gem.hX + gem.width > player.hX &&
-          gem.hY < player.hY + player.height &&
-          gem.hY + gem.height > player.hY){
-          points +=gem.pts;
-          document.getElementById("pointsDisplay").innerHTML = points;
-           gem.x = ranGX();
-           gem.hX = gem.x + 4;
-           gem.y = ranGY();
-           gem.hY = gem.y + 45;
+      allGems.forEach(function(gem) {
+        if (gem.hX < player.hX + player.width &&
+            gem.hX + gem.width > player.hX &&
+            gem.hY < player.hY + player.height &&
+            gem.hY + gem.height > player.hY){
+              points +=gem.pts;
+              document.getElementById("pointsDisplay").innerHTML = points;
+              gem.x = ranGX();
+              gem.hX = gem.x + 4;
+              gem.y = ranGY();
+              gem.hY = gem.y + 45;
         }
       });
     })();
-// detects when the player is in the water and ends the game by bring up the highscore
-//modal window
+  // detects when the player is in the water and ends the game by bring up the highscore
+  //modal window
     if (this.y === -25) {
       document.getElementById("highscore").innerHTML = points;
       modalClosed = false;
@@ -198,35 +197,33 @@ const allGems = [sapphire, emerald, citrine];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-  document.addEventListener('keyup', function(e) {
-    if(modalClosed){
-      var allowedKeys = {
-          37: 'left',
-          38: 'up',
-          39: 'right',
-          40: 'down'
-      };
-      player.handleInput(allowedKeys[e.keyCode]);
-    }
-  });
+document.addEventListener('keyup', function(e) {
+  if(modalClosed){
+    var allowedKeys = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down'
+    };
+    player.handleInput(allowedKeys[e.keyCode]);
+  }
+});
 // moves selector image to move with arrow keys in the character select  modal window
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
         39: 'right',
     };
-          if (allowedKeys[e.keyCode] === 'left' && l !== 47){
-            l -= 103;
-          }
-          if (allowedKeys[e.keyCode] === 'right' && l !== 459){
-              l += 103;
-          }
-  selector.style.left = l.toString() + 'px';
+    if (allowedKeys[e.keyCode] === 'left' && l !== 47){
+      l -= 103;
+    }
+    if (allowedKeys[e.keyCode] === 'right' && l !== 459){
+        l += 103;
+    }
+    selector.style.left = l.toString() + 'px';
 });
 
-
 const accept = document.querySelector('.accept');
-
 accept.addEventListener('click', function() {
   //closes modal
   document.querySelector('.modalBox').style.opacity = '0';
@@ -258,10 +255,10 @@ next.addEventListener('click', function() {
     }
   }
   else {
-  // prompts the user to select one of the radio buttons
-  document.querySelector('.alert').style.opacity = '1';
+    // prompts the user to select one of the radio buttons
+    document.querySelector('.alert').style.opacity = '1';
   }
-  });
+});
 //timer
 setInterval(function() {
   if (timerStart){

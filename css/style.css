@@ -54,7 +54,7 @@ p {
   z-index: 2;
 }
 .marginControl {
-  margin-left: -15px; /*25 */
+  margin-left: -15px;
 }
 .modalBg {
   background: rgba(0, 0, 0, 0.7);
@@ -67,12 +67,12 @@ p {
   z-index: 3;
   position: absolute;
   top: 80px;
-  left: 258px; /* 50, 155, 260, 365, 465 */
+  left: 258px;
 }
 .charLineUp {
   z-index: 4;
   position: absolute;
-  top: 80px; /* 50*/
+  top: 80px;
   left: 45px;
 }
 .accept {
@@ -88,7 +88,6 @@ p {
   font-size: 16px;
   font-weight: bold;
 }
-
 .title {
   color:  rgb(239, 249, 157);
 }
@@ -119,7 +118,6 @@ p {
   z-index: -5;
   opacity: 0;
 }
-
 td {
   font-size: 18px;
   color:  rgb(239, 249, 157);
@@ -144,10 +142,10 @@ table {
   text-align: right;
 }
 .alert {
-color: red;
-font-weight: bold;
-font-size: 20px;
-position: relative;
-top: 30px;
-opacity: 0;
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+  position: relative;
+  top: 30px;
+  opacity: 0;
 }
