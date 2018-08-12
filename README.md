@@ -1,6 +1,14 @@
-frontend-nanodegree-arcade-game
-===============================
+# Classic Arcade Game Clone
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+The game is a clone of the classic game frogger.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+### How to play
+First, the user needs to select one of the difficulties levels. Baby is easy and iNSane(insane) is hard. The player can't progress without choosing either one. Next, the user needs to select the character s/he wants to play. Arrow keys move the selection image. Clicking the start button locks in the selection and applies it to the game.
+In game, the user must avoid bug enemies and make it to the water. Reaching the water will win the game and enter the player's points on the highscore board under YOU. Colliding with an enemy bug will end the game and reset points and the timer. Collecting gems increases points. Blue gems are worth 300, green gems are worth 200, and orange gems are worth 100.
+
+### How to start
+Open the index.html file in your browser and follow the prompts in the modal windows.
+
+### Acknowledgments
+
+Visual assets and game loop engine were provided by Udacity. 
