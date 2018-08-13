@@ -1,6 +1,6 @@
 /* Classic Arcade Game Clone
 *
-*Last revision 8/11/2018
+*Last revision 8/13/2018
 */
 
 //random x coordinate for gems
@@ -31,6 +31,9 @@ let insane = false;
 let modalClosed = false;
 const modalBox = document.querySelector('.modalBox');
 let l = 253;
+// necessary for player movement
+const TILE_WIDTH = 101;
+const TILE_HEIGHT = 83;
 
 // Enemies our player must avoid
 class Enemy {
@@ -45,26 +48,26 @@ class Enemy {
     this.height = 70;
   }
   update(dt) {
-         this.x +=  this.speedX * dt;
-         this.hX = this.x + 4;
-         if (this.x > 600){
-           this.x =-100;
-           // allows enemies to travel on the grass. This means there is no safe zone.
-        if(this.y < 400 && insane)
-           this.y = this.y + 83;
-           this.hY = this.y + 75;
-         }
-        if (this.y > 400 && insane){
-          this.y = 60;
-          this.hY = this.y + 75;
-        }
+    this.x +=  this.speedX * dt;
+    this.hX = this.x + 4;
+    if (this.x > 600){
+      this.x =-100;
+       // allows enemies to travel on the grass. This means there is no safe zone.
+    if(this.y < 400 && insane)
+       this.y = this.y + 83;
+       this.hY = this.y + 75;
+     }
+    if (this.y > 400 && insane){
+      this.y = 60;
+      this.hY = this.y + 75;
+    }
   }
   render() {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-      // Hitbox animation for testing
-      // ctx.beginPath();
-      // ctx.rect(this.hX, this.hY, this.width, this.height);
-      // ctx.stroke();
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // Hitbox animation for testing
+    // ctx.beginPath();
+    // ctx.rect(this.hX, this.hY, this.width, this.height);
+    // ctx.stroke();
   }
 };
 // creates enemy instances
@@ -75,15 +78,13 @@ var allEnemies = [enemy1, enemy2, enemy3];
 
 // sets up player class
 class Player extends Enemy {
-  constructor(img, x, y, speedX, speedY) {
-    super(img, x, y, speedX);
+  constructor(img, x, y) {
+    super(img, x, y);
     this.sprite = img;
     this.x = x;
     this.hX = this.x + 25;    //hitbox top left corner x coodinate
     this.y = y;
     this.hY = this.y + 75;    //hitbox top left corner y coodinate
-    this.speedX = speedX;
-    this.speedY = speedY;
     this.width = 50;   //hitbox width
     this.height = 50;  //hitbox height
   }
@@ -91,16 +92,17 @@ class Player extends Enemy {
     // checks to see if the hitboxes of the player of an enemy overlap
     //if they do resets the game by putting the player back on the starting square
     //and setting points and time to zero
+    self = this;
     (function collision() {
       allEnemies.forEach(function(enemy) {
-        if (enemy.hX < player.hX + player.width &&
-            enemy.hX + enemy.width > player.hX &&
-            enemy.hY < player.hY + player.height &&
-            enemy.hY + enemy.height > player.hY){
-              player.x = 200;
-              player.hX = player.x + 25;
-              player.y = 400;
-              player.hY = player.y + 75;
+        if (enemy.hX < self.hX + self.width &&
+            enemy.hX + enemy.width > self.hX &&
+            enemy.hY < self.hY + self.height &&
+            enemy.hY + enemy.height > self.hY){
+              self.x = 200;
+              self.hX = self.x + 25;
+              self.y = 400;
+              self.hY = self.y + 75;
               timeArray.forEach(function(index, val) {
                 timeArray[val][0] = 0;
               });
@@ -128,7 +130,7 @@ class Player extends Enemy {
     })();
   // detects when the player is in the water and ends the game by bring up the highscore
   //modal window
-    if (this.y === -25) {
+    if (this.y === -15) {
       document.getElementById("highscore").innerHTML = points;
       modalClosed = false;
       document.querySelector('.winWindow').style.zIndex = '5';
@@ -142,22 +144,22 @@ class Player extends Enemy {
   }
   handleInput(e) {
     //controls player and stops player from exiting map
-      if (e === 'left' && this.x !== 0){
-        this.x -= this.speedX;
-        this.hX = this.x + 25;
-      }
-      if (e === 'right' && this.x !== 400){
-        this.x += this.speedX;
-        this.hX = this.x + 25;
-      }
-      if (e === 'up' && this.y !== -25){
-        this.y -= this.speedY;
-        this.hY = this.y + 75;
-      }
-      if (e === 'down' && this.y !== 400){
-        this.y += this.speedY;
-        this.hY = this.y + 75;
-      }
+    if (e === 'left' && this.x !== 0 && modalClosed){
+      this.x -= TILE_WIDTH;
+      this.hX = this.x + 25;
+    }
+    if (e === 'right' && this.x !== 400 && modalClosed){
+      this.x += TILE_WIDTH;
+      this.hX = this.x + 25;
+    }
+    if (e === 'up' && this.y !== -25 && modalClosed){
+      this.y -= TILE_HEIGHT;
+      this.hY = this.y + 75;
+    }
+    if (e === 'down' && this.y !== 400 && modalClosed){
+      this.y += TILE_HEIGHT;
+      this.hY = this.y + 75;
+    }
   }
 };
 //character skin pool
@@ -182,11 +184,11 @@ class Gem {
 
   }
   render() {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.imgWidth, this.imgHeight);
-      // Hitbox animation for testing
-      // ctx.beginPath();
-      // ctx.rect(this.hX, this.hY, this.width, this.height);
-      // ctx.stroke();
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.imgWidth, this.imgHeight);
+    // Hitbox animation for testing
+    // ctx.beginPath();
+    // ctx.rect(this.hX, this.hY, this.width, this.height);
+    // ctx.stroke();
   }
 };
 // creates gem instances
@@ -210,17 +212,17 @@ document.addEventListener('keyup', function(e) {
 });
 // moves selector image to move with arrow keys in the character select  modal window
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        39: 'right',
-    };
-    if (allowedKeys[e.keyCode] === 'left' && l !== 47){
-      l -= 103;
-    }
-    if (allowedKeys[e.keyCode] === 'right' && l !== 459){
-        l += 103;
-    }
-    selector.style.left = l.toString() + 'px';
+  var allowedKeys = {
+      37: 'left',
+      39: 'right',
+  };
+  if (allowedKeys[e.keyCode] === 'left' && l !== 47){
+    l -= 103;
+  }
+  if (allowedKeys[e.keyCode] === 'right' && l !== 459){
+      l += 103;
+  }
+  selector.style.left = l.toString() + 'px';
 });
 
 const accept = document.querySelector('.accept');
@@ -286,17 +288,16 @@ setInterval(function() {
 
 const restart = document.querySelector('.restart');
 restart.addEventListener('click', function() {
-    document.querySelector('.winWindow').style.zIndex = '-1';
-    document.querySelector('.winWindow').style.opacity = '0';
-    modalClosed = true;
-    // resets game so the player can play again
-    player.x = 200;
-    player.hX = player.x + 25;
-    player.y = 400;
-    player.hY = player.y + 75;
-    points = 0;
-    document.getElementById("pointsDisplay").innerHTML = points;
-    timeArray.forEach(function(index, val) {
-      timeArray[val][0] = 0;
-    });
+  document.querySelector('.winWindow').style.zIndex = '-1';
+  document.querySelector('.winWindow').style.opacity = '0';
+  // resets game so the player can play again
+  player.x = 200;
+  player.hX = player.x + 25;
+  player.y = 400;
+  player.hY = player.y + 75;
+  points = 0;
+  document.getElementById("pointsDisplay").innerHTML = points;
+  timeArray.forEach(function(index, val) {
+    timeArray[val][0] = 0;
+  });
   });
